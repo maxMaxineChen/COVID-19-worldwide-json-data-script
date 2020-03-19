@@ -1,0 +1,20 @@
+{
+  "name": "covid-19-worldwide-json-data-script",
+  "description": "A script to access Coronavirus COVID-19 worldwide data in JSON format",
+  "version": "0.1.0",
+  "author": "Maxine Chen",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "moment": "^2.24.0",
+    "node": "^13.10.1"
+  },
+  "scripts": {
+    "build": "node --trace-warnings ./script/buildData.js build",
+    "update": "node --trace-warnings ./script/buildData.js update",
+    "start": "node ./script/buildData.js > updated.log"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script.git"
+  }
+}
