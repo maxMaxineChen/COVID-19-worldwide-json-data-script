@@ -5,7 +5,7 @@ This script stores data in JSON format from the John Hopkins University CSSE via
 
 Builed data available at [https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob/master/data/data.json](https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob/master/data/data.json)
 
-It will get updated every 12 hours by github actions.
+It will get updated every 8 hours by github actions.
 
 ## Data Format
  
