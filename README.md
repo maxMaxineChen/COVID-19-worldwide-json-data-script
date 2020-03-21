@@ -117,6 +117,7 @@ fetch("https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob
 
 ## Projects using this dataset
 
+- [A Coronavirus COVID-19 global data statistics website](https://github.com/maxMaxineChen/COVID19-Worldwide-Stats), (React + Gatsby + Material UI + Recharts) by [Maxine Chen](https://github.com/maxMaxineChen)
 
 [+ Add yours](https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/edit/master/README.md)
 
