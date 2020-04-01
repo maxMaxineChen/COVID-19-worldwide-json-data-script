@@ -3,9 +3,25 @@ A script to access Coronavirus COVID-19 worldwide data in JSON format
 
 This script stores data in JSON format from the John Hopkins University CSSE via [mathdroid API](https://github.com/mathdroid/covid-19-api). 
 
-Builed data available at [https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob/master/data/data.json](https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob/master/data/data.json)
+Built data available at [https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob/master/data/data.json](https://github.com/maxMaxineChen/COVID-19-worldwide-json-data-script/blob/master/data/data.json)
 
 It will get updated every 8 hours by github actions.
+
+## Changelogs
+
+### [ 2, Apr 2020 ] 
+Add growth and growth rate data to dailyReports.
+
+There are new key-values (You also can check the Data Format below for further details):
+
+```json
+    "confirmedGrowth": 0,
+    "recoveredGrowth": 0,
+    "deathsGrowth": 0,
+    "confirmedGrowthRate": 0,
+    "recoveredGrowthRate": 0,
+    "deathsGrowthRate": 0
+```
 
 ## Data Format
  
@@ -18,11 +34,11 @@ By using data, you can validate "errorStatus !== true" at first to get meaningfu
 ```json
 {
     "errorStatus": false,
-    "lastSync": "2020-03-19T05:22:08.741Z",
-    "lastUpdate": "2020-03-19T04:53:02.000Z", 
-    "confirmed": 218814,
-    "recovered": 84113,
-    "deaths": 8810,
+    "lastSync": "2020-04-01T15:15:46.146Z",
+    "lastUpdate": "2020-04-01T13:42:16.000Z",
+    "confirmed": 883225,
+    "recovered": 185377,
+    "deaths": 44156,
     "dailyReports": [
         {
             "errorStatus": false,
@@ -36,10 +52,22 @@ By using data, you can validate "errorStatus !== true" at first to get meaningfu
                     "countryCode": "CN",
                     "confirmed": 547,
                     "recovered": 28,
-                    "deaths": 17
+                    "deaths": 17,
+                    "confirmedGrowth": 0,
+                    "recoveredGrowth": 0,
+                    "deathsGrowth": 0,
+                    "confirmedGrowthRate": 0,
+                    "recoveredGrowthRate": 0,
+                    "deathsGrowthRate": 0,
                 },
                 ...
             ],
+            "confirmedGrowth": 0,
+            "recoveredGrowth": 0,
+            "deathsGrowth": 0,
+            "confirmedGrowthRate": 0,
+            "recoveredGrowthRate": 0,
+            "deathsGrowthRate": 0,
         },
         {
             "errorStatus": false,
@@ -53,10 +81,22 @@ By using data, you can validate "errorStatus !== true" at first to get meaningfu
                     "countryCode": "CN",
                     "confirmed": 639,
                     "recovered": 30,
-                    "deaths": 18
+                    "deaths": 18,
+                    "confirmedGrowth": 92,
+                    "recoveredGrowth": 2,
+                    "deathsGrowth": 1,
+                    "confirmedGrowthRate": 0.16819012797074953,
+                    "recoveredGrowthRate": 0.07142857142857142,
+                    "deathsGrowthRate": 0.058823529411764705,
                 },
                 ...
             ],
+            "confirmedGrowth": 98,
+            "recoveredGrowth": 2,
+            "deathsGrowth": 1,
+            "confirmedGrowthRate": 0.17657657657657658,
+            "recoveredGrowthRate": 0.07142857142857142,
+            "deathsGrowthRate": 0.058823529411764705
         },
         ...
     ]
