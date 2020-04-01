@@ -68,6 +68,9 @@ const loadData = ((startDate, endDate) => {
     return loadDataArray
 })
 
+function calculateGrowthRate(data, yesterdayData) {
+    return ((data - (yesterdayData || 0)) / (yesterdayData || 1))
+}
 function updateByDate(existedData, startDate, endDate) {
     Promise.all(loadData(startDate, endDate))
         .then((records) => {
@@ -77,6 +80,64 @@ function updateByDate(existedData, startDate, endDate) {
                 })
             }
             else existedData.dailyReports = records
+            return existedData
+        })
+        .then((existedData) => {
+            let dailyReports = existedData.dailyReports
+            let yesterdayData
+            for (let index = recordIndex(startDate); index <= recordIndex(endDate); index++) {
+                if (index === 0 || dailyReports[index].errorStatus !== false) { //If the date is recordStartDate or flaging error, we supposed that all growth data is 0
+                    Object.assign(dailyReports[index], {
+                        confirmedGrowth: 0,
+                        recoveredGrowth: 0,
+                        deathsGrowth: 0,
+                        confirmedGrowthRate: 0,
+                        recoveredGrowthRate: 0,
+                        deathsGrowthRate: 0,
+                    })
+                    dailyReports[index].countries.forEach(record => {
+                        Object.assign(record, {
+                            confirmedGrowth: 0,
+                            recoveredGrowth: 0,
+                            deathsGrowth: 0,
+                            confirmedGrowthRate: 0,
+                            recoveredGrowthRate: 0,
+                            deathsGrowthRate: 0,
+                        })
+                    })
+                    continue;
+                }
+                if (dailyReports[index - 1].errorStatus === false) {
+                    yesterdayData = dailyReports[index - 1]
+                }
+                else yesterdayData = false
+                const yesterdayConfirmed = (yesterdayData === false ? false : yesterdayData.confirmed)
+                const yesterdayRecovered = (yesterdayData === false ? false : yesterdayData.recovered)
+                const yesterdayDeaths = (yesterdayData === false ? false : yesterdayData.deaths)
+                Object.assign(dailyReports[index], {
+                    confirmedGrowth: (dailyReports[index].confirmed - yesterdayConfirmed),
+                    recoveredGrowth: (dailyReports[index].recovered - yesterdayRecovered),
+                    deathsGrowth: (dailyReports[index].deaths - yesterdayDeaths),
+                    confirmedGrowthRate: calculateGrowthRate(dailyReports[index].confirmed, yesterdayConfirmed),
+                    recoveredGrowthRate: calculateGrowthRate(dailyReports[index].recovered, yesterdayRecovered),
+                    deathsGrowthRate: calculateGrowthRate(dailyReports[index].deaths, yesterdayDeaths),
+                })
+                dailyReports[index].countries.forEach(record => {
+                    const countryIndex = yesterdayData.countries.findIndex(country => country.countryCode === record.countryCode)
+                    const yesterdayConfirmed = ((countryIndex === -1) ? false : yesterdayData.countries[countryIndex].confirmed)
+                    const yesterdayRecovered = ((countryIndex === -1) ? false : yesterdayData.countries[countryIndex].recovered)
+                    const yesterdayDeaths = ((countryIndex === -1) ? false : yesterdayData.countries[countryIndex].deaths)
+                    Object.assign(record, {
+                        confirmedGrowth: (record.confirmed - yesterdayConfirmed),
+                        recoveredGrowth: (record.recovered - yesterdayRecovered),
+                        deathsGrowth: (record.deaths - yesterdayDeaths),
+                        confirmedGrowthRate: calculateGrowthRate(record.confirmed, yesterdayConfirmed),
+                        recoveredGrowthRate: calculateGrowthRate(record.recovered, yesterdayRecovered),
+                        deathsGrowthRate: calculateGrowthRate(record.deaths, yesterdayDeaths),
+                    })
+                })
+            }
+            Object.assign(existedData, { dailyReports: dailyReports })
             return existedData
         })
         .then((existedData) => {
