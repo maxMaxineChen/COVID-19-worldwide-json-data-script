@@ -71,6 +71,15 @@ const loadData = ((startDate, endDate) => {
 function calculateGrowthRate(data, yesterdayData) {
     return ((data - (yesterdayData || 0)) / (yesterdayData || 1))
 }
+
+const adjustNegativeData = (yesterdayData, todayData) => {
+    return ({
+        confirmed: (yesterdayData.confirmed > todayData.confirmed ? yesterdayData.confirmed : todayData.confirmed),
+        recovered: (yesterdayData.recovered > todayData.recovered ? yesterdayData.recovered : todayData.recovered),
+        deaths: (yesterdayData.deaths > todayData.deaths ? yesterdayData.deaths : todayData.deaths)
+    })
+}
+
 function updateByDate(existedData, startDate, endDate) {
     Promise.all(loadData(startDate, endDate))
         .then((records) => {
@@ -111,6 +120,7 @@ function updateByDate(existedData, startDate, endDate) {
                     yesterdayData = dailyReports[index - 1]
                 }
                 else yesterdayData = false
+                Object.assign(dailyReports[index], adjustNegativeData(yesterdayData, dailyReports[index]))
                 const yesterdayConfirmed = (yesterdayData === false ? false : yesterdayData.confirmed)
                 const yesterdayRecovered = (yesterdayData === false ? false : yesterdayData.recovered)
                 const yesterdayDeaths = (yesterdayData === false ? false : yesterdayData.deaths)
@@ -127,6 +137,7 @@ function updateByDate(existedData, startDate, endDate) {
                     const yesterdayConfirmed = ((countryIndex === -1) ? false : yesterdayData.countries[countryIndex].confirmed)
                     const yesterdayRecovered = ((countryIndex === -1) ? false : yesterdayData.countries[countryIndex].recovered)
                     const yesterdayDeaths = ((countryIndex === -1) ? false : yesterdayData.countries[countryIndex].deaths)
+                    if (countryIndex !== -1) Object.assign(record, adjustNegativeData(yesterdayData.countries[countryIndex], record))
                     Object.assign(record, {
                         confirmedGrowth: (record.confirmed - yesterdayConfirmed),
                         recoveredGrowth: (record.recovered - yesterdayRecovered),
