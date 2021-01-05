@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "author": "Maxine Chen",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "moment": "^2.24.0",
     "node": "^13.10.1"
   },
