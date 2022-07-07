@@ -5,7 +5,7 @@
   "author": "Maxine Chen",
   "dependencies": {
     "axios": "^0.19.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node": "^13.10.1"
   },
   "scripts": {
